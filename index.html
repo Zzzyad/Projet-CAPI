@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planning Poker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="app">
+        <header>
+            <h1>Planning Poker</h1>
+        </header>
+
+        <main>
+            <div id="menu">
+                <h2>Menu principal</h2>
+                <label>Nombre de joueurs :</label>
+                <input id="playerCount" type="number" min="2" max="10" value="2">
+                <div id="players"></div>
+                <button id="addPlayers">Ajouter Joueurs</button>
+
+                <label>Choix des règles :</label>
+                <select id="rules">
+                    <option value="strict">Unanimité</option>
+                    <option value="average">Moyenne</option>
+                    <option value="median">Médiane</option>
+                    <option value="absolute-majority">Majorité absolue</option>
+                    <option value="relative-majority">Majorité relative</option>
+                </select>
+
+                <label>Importer un backlog :</label>
+                <input id="importBacklog" type="file" accept=".json">
+                <label>Importer une sauvegarde :</label>
+                <input id="importSave" type="file" accept=".json">
+                <button id="startGame">Démarrer la partie</button>
+            </div>
+
+            <div id="game" style="display: none;">
+                <h2 id="featureTitle">Fonctionnalité : </h2>
+                <div id="votes"></div> <!-- Les cartes apparaîtront ici -->
+                <div id="timer">Temps : <span id="time">00:00</span></div>
+            </div>
+        </main>
+    </div>
+    <script src="app.js"></script>
+</body>
+
+</html>
