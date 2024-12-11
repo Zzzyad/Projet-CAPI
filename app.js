@@ -190,30 +190,93 @@ function startTimer() {
 }
 
 /**
- * Valider le vote en fonction des règles sélectionnées.
+ * Valider le vote en fonction des règles sélectionnées (unanimité, moyenne, médiane, majorité absolue).
  */
 function validateVote() {
-  const rule = document.getElementById("rules").value;
-  if (votes.every(vote => vote === "cafe")) {
-      saveProgress();
-      alert("Tous les joueurs ont utilisé la carte Café. Partie sauvegardée !");
-      votes = Array(players.length).fill(null);
-      currentPlayerIndex = 0;
-      showCardsForPlayer();
-      return;
-  }
+    const rule = document.getElementById("rules").value;
+    
+    
+    if (votes.every(vote => vote === "cafe")) {
+        saveProgress();
+        alert("Tous les joueurs ont utilisé la carte Café. Partie sauvegardée !");
+        votes = Array(players.length).fill(null);
+        currentPlayerIndex = 0;
+        showCardsForPlayer();
+        return;
+    }
+  
+    // Règle stricte : Unanimité (tous les votes doivent être identiques)
     if (rule === "strict" && new Set(votes).size === 1) {
         backlog[currentFeatureIndex].estimate = votes[0];
         currentFeatureIndex++;
         alert("Fonctionnalité validée !");
         showFeature();
-    } else {
-        alert("Vote non validé, recommencez !");
-        votes = Array(players.length).fill(null);
-        currentPlayerIndex = 0;
-        showCardsForPlayer();
+        return;
     }
-}
+    
+    // Règle moyenne : Calcul de la moyenne des votes
+    if (rule === "average") {
+        const validVotes = votes.filter(vote => typeof vote === 'number'); // Ignorer les cartes non numériques
+        if (validVotes.length > 0) {
+            const average = validVotes.reduce((sum, vote) => sum + vote, 0) / validVotes.length;
+            backlog[currentFeatureIndex].estimate = Math.round(average); // Estimation arrondie
+            currentFeatureIndex++;
+            alert("Fonctionnalité validée avec la moyenne !");
+            showFeature();
+        } else {
+            alert("Vote non validé, recommencez !");
+            resetVotesAndPlayers();
+        }
+        return;
+    }
+    
+    // Règle médiane : Calcul de la médiane des votes
+    if (rule === "median") {
+        const validVotes = votes.filter(vote => typeof vote === 'number'); // Ignorer les cartes non numériques
+        if (validVotes.length > 0) {
+            validVotes.sort((a, b) => a - b);
+            const middle = Math.floor(validVotes.length / 2);
+            const median = validVotes.length % 2 === 0 ? 
+                (validVotes[middle - 1] + validVotes[middle]) / 2 : 
+                validVotes[middle];
+            backlog[currentFeatureIndex].estimate = Math.round(median); // Estimation arrondie
+            currentFeatureIndex++;
+            alert("Fonctionnalité validée avec la médiane !");
+            showFeature();
+        } else {
+            alert("Vote non validé, recommencez !");
+            resetVotesAndPlayers();
+        }
+        return;
+    }
+    
+    // Règle de la majorité absolue : Si une carte apparaît plus de la moitié du nombre de joueurs
+    if (rule === "absolute-majority") {
+        const voteCounts = votes.reduce((counts, vote) => {
+            counts[vote] = (counts[vote] || 0) + 1;
+            return counts;
+        }, {});
+        const majorityVote = Object.entries(voteCounts).find(([vote, count]) => count > players.length / 2);
+        if (majorityVote) {
+            backlog[currentFeatureIndex].estimate = majorityVote[0];
+            currentFeatureIndex++;
+            alert("Fonctionnalité validée avec la majorité absolue !");
+            showFeature();
+        } else {
+            alert("Vote non validé, recommencez !");
+            resetVotesAndPlayers();
+        }
+        return;
+    }
+    
+  
+    // Si aucune règle n'a été validée, on recommence le vote
+    alert("Vote non validé, recommencez !");
+    votes = Array(players.length).fill(null);
+    currentPlayerIndex = 0;
+    showCardsForPlayer();
+  }
+  
 
 /**
  * Réinitialiser les votes et les joueurs pour une nouvelle fonctionnalité.
