@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "jsdoc": "github:jsdoc/jsdoc"
+  }
+}
