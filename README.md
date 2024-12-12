@@ -75,6 +75,7 @@ La documentation est générée automatiquement avec **JSDoc**.
 Pour générer la documentation :
 
 ```bash
+npm install -g jsdoc
 jsdoc app.js
 
 ```
