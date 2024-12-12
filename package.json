@@ -1,5 +1,15 @@
 {
+  "babel": {
+    "presets": ["@babel/preset-env"]
+  },
   "devDependencies": {
-    "jsdoc": "github:jsdoc/jsdoc"
+    "@babel/preset-env": "^7.26.0",
+    "babel-jest": "^29.7.0",
+    "jest": "^29.7.0",
+    "jsdoc": "github:jsdoc/jsdoc",
+    "ts-jest": "^29.2.5"
+  },
+  "scripts": {
+    "test": "jest"
   }
 }
