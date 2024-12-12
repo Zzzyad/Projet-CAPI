@@ -48,28 +48,30 @@ function loadBacklog(event) {
  * @param {Event} event - L'événement déclenché par le chargement du fichier.
  */
 function loadSave(event) {
-  const file = event.target.files[0];
-  const reader = new FileReader();
-  reader.onload = () => {
-      const progress = JSON.parse(reader.result);
-      if (progress.backlog && progress.players && progress.currentFeatureIndex !== undefined) {
-          backlog = progress.backlog;
-          players = progress.players;
-          currentFeatureIndex = progress.currentFeatureIndex;
-          votes = progress.votes || Array(players.length).fill(null);
-          currentPlayerIndex = 0;
-          alert("Sauvegarde chargée avec succès !");
-          document.getElementById("menu").style.display = "none";
-          document.getElementById("game").style.display = "block";
-          startTimer();
-          addPreviousButton();
-          showFeature();
-      } else {
-          alert("Fichier de sauvegarde invalide !");
-      }
-  };
-  reader.readAsText(file);
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+        const progress = JSON.parse(reader.result);
+        if (progress.backlog && progress.players && progress.currentFeatureIndex !== undefined) {
+            backlog = progress.backlog;
+            players = progress.players;
+            currentFeatureIndex = progress.currentFeatureIndex;
+            votes = progress.votes || Array(players.length).fill(null);
+            currentPlayerIndex = 0;
+            document.getElementById("rules").value = progress.rule || "strict"; // Restaurer la règle
+            alert("Sauvegarde chargée avec succès !");
+            document.getElementById("menu").style.display = "none";
+            document.getElementById("game").style.display = "block";
+            startTimer();
+            addPreviousButton();
+            showFeature();
+        } else {
+            alert("Fichier de sauvegarde invalide !");
+        }
+    };
+    reader.readAsText(file);
 }
+
 
 /**
  * Démarrer la partie en initialisant les joueurs et en affichant le jeu.
@@ -302,18 +304,20 @@ function saveResults() {
  * Sauvegarder la progression du jeu dans un fichier JSON.
  */
 function saveProgress() {
-  const progress = {
-      backlog: backlog,
-      currentFeatureIndex,
-      players,
-      votes: Array(players.length).fill(null)
-  };
-  const blob = new Blob([JSON.stringify(progress)], { type: "application/json" });
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "save.json";
-  a.click();
+    const progress = {
+        backlog: backlog,
+        currentFeatureIndex,
+        players,
+        votes: Array(players.length).fill(null),
+        rule: document.getElementById("rules").value // Ajouter la règle choisie
+    };
+    const blob = new Blob([JSON.stringify(progress)], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "save.json";
+    a.click();
 }
+
 
 /**
  * Afficher un bouton pour retourner au menu principal.
