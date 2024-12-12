@@ -1,9 +1,9 @@
 [
-  { "name": "Créer un formulaire d'inscription" },
-  { "name": "Mettre en place une API REST" },
-  { "name": "Optimiser la base de données" },
-  { "name": "Implémenter une authentification par OAuth" },
-  { "name": "Ajouter un tableau de bord analytique" },
-  { "name": "Effectuer des tests de charge sur le serveur" }
+    { "name": "Créer un formulaire d'inscription" },
+    { "name": "Mettre en place une API REST" },
+    { "name": "Optimiser la base de données" },
+    { "name": "Implémenter une authentification par OAuth" },
+    { "name": "Ajouter un tableau de bord analytique" },
+    { "name": "Effectuer des tests de charge sur le serveur" }
   ]
   
