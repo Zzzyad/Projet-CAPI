@@ -1,11 +1,5 @@
 # Application Planning Poker
 
-## Description
-
-Cette application permet de gérer une partie de Planning Poker en respectant les règles classiques tout en ajoutant des fonctionnalités pour améliorer l'expérience utilisateur. Elle propose des modes de jeu variés et permet de sauvegarder l'état de la partie pour une reprise ultérieure.
-
----
-
 ## Fonctionnalités principales
 
 - **Gestion des joueurs** : Ajout et personnalisation des pseudos.
